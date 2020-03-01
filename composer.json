@@ -1,0 +1,38 @@
+{
+    "name": "jthatch/advent2019",
+    "description": "A PHP7.4 solution advent of code 2019 challenges",
+    "authors": [
+        {
+            "name": "James Thatcher",
+            "email": "james@jameswt.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Advent\\": "src/Advent"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "test/"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "symfony/console": "^5.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.8",
+        "phpunit/phpunit": "~6.4",
+        "ext-json": "*"
+    },
+    "scripts": {
+        "cs-fixer-ci": "bin/php-cs-fixer fix --config=php_cs.dist --dry-run",
+        "cs-fixer": "bin/php-cs-fixer fix --config=php_cs.dist",
+        "test" : "bin/phpunit"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
