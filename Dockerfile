@@ -16,6 +16,7 @@ RUN composer install && composer dump-autoload -o
 
 COPY src/ src/
 COPY test/ test/
-COPY bin/console bin/console
+COPY resources/ resources/
+COPY phpunit.xml.dist ./
 
-CMD ["/bin/ash", "/app/beesinthetrap", "-a"]
+CMD ["./bin/phpunit", '-c', 'phpunit.xml.dist']
