@@ -20,7 +20,18 @@ class FuelCounter
 
     public function getFullNeededWithFuel(): int
     {
-        return (int) array_reduce($this->objects, function ($totalFuel, $mass) {
+        $result = [];
+        foreach ($this->objects as $mass) {
+            $result[] = $fuel = $this->calculateFuelFromMass($mass);
+
+            while ($fuel = $this->calculateFuelFromMass($fuel)) {
+                $result[] = $fuel;
+            }
+        }
+
+        return array_sum($result);
+
+        /*return (int) array_reduce($this->objects, function ($totalFuel, $mass) {
             $fuel = $massFuel = $this->calculateFuelFromMass($mass);
             do {
                 $fuel = $this->calculateFuelFromMass($fuel);
@@ -28,13 +39,13 @@ class FuelCounter
             } while ($fuel > 0);
 
             return $totalFuel + $massFuel;
-        }, 0);
+        }, 0);*/
     }
 
     protected function calculateFuelFromMass($mass): int
     {
         $mass = (int) $mass;
 
-        return (int) max(0, floor($mass / 3) - 2);
+        return (int) max(floor($mass / 3) - 2, 0);
     }
 }

@@ -42,7 +42,7 @@ class Day2Test extends TestCase
         $opcode
             ->substituteAddress(1, 12)
             ->substituteAddress(2, 2);
-        $opcodes = $opcode->calculateOpcodes();
+        $opcodes   = $opcode->calculateOpcodes();
         $position0 = (int) explode(',', $opcodes)[0];
         $this->assertEquals(3760627, $position0);
     }
@@ -53,7 +53,7 @@ class Day2Test extends TestCase
         $opcode
             ->substituteAddress(1, 71)
             ->substituteAddress(2, 95);
-        $opcodes = $opcode->calculateOpcodes();
+        $opcodes   = $opcode->calculateOpcodes();
         $position0 = (int) explode(',', $opcodes)[0];
         $this->assertEquals(19690720, $position0);
 
