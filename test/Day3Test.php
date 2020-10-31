@@ -64,7 +64,7 @@ class Day3Test extends TestCase
                     'U98,R91,D20,R16,D67,R40,U7,R15,U6,R7',
                 ],
                 'answer' => 410,
-            ]
+            ],
         ];
 
         foreach ($examples as $example) {

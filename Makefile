@@ -1,4 +1,4 @@
-.PHONY: all test
+.PHONY: all test test-dev
 
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -11,7 +11,7 @@ image-name    :=$(shell basename $(PWD))
 image-version :=$(shell git describe --abbrev=0 --tags --exact-match 2>/dev/null || git rev-parse --short HEAD)
 
 build: ## Build docker image
-	docker build \
+	DOCKER_BUILDKIT=1 docker build \
 		--file=Dockerfile \
 		--tag="$(image-name):$(image-version)" .
 
@@ -27,14 +27,14 @@ ifdef day
 		-w /app \
 		-e "SIMULATIONS=${SIMULATIONS}" \
 		"$(image-name):$(image-version)" \
-		./bin/phpunit -c phpunit.xml.dist test/Day${day}Test.php
+		./bin/phpunit -c phpunit.xml.dist test/Day${day}Test.php --testdox --coverage-text
 else
 	docker run -it --rm \
 		--name $(image-name) \
 		-w /app \
 		-e "SIMULATIONS=${SIMULATIONS}" \
 		"$(image-name):$(image-version)" \
-		./bin/phpunit -c phpunit.xml.dist
+		./bin/phpunit -c phpunit.xml.dist --testdox --coverage-text
 endif
 
 test-dev: ## Run tests in the local workspace
@@ -43,13 +43,13 @@ ifdef day
 		--name $(image-name) \
 		-v "$(PWD)":/app \
 		"$(image-name):$(image-version)" \
-		php ./bin/phpunit -c phpunit.xml.dist test/Day${day}Test.php
+		php ./bin/phpunit -c phpunit.xml.dist test/Day${day}Test.php --testdox
 else
 	docker run -it --rm \
 		--name $(image-name) \
 		-v "$(PWD)":/app \
 		"$(image-name):$(image-version)" \
-		php ./bin/phpunit -c phpunit.xml.dist
+		php ./bin/phpunit -c phpunit.xml.dist --testdox
 endif
 
 clean: ## Clean old docker images not attached
